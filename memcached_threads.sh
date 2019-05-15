@@ -14,7 +14,7 @@ do
     
     echo -n $i >> ./plot_data/threads.dat
     
-    /usr/local/tool/twemperf/src/mcperf --linger=0 --timeout=5 --num-conns=1000 --conn-rate=1000 --num-calls=500 --call-rate=1000 --sizes=u10,1024 --method=set --port=11211
+    /usr/local/tool/twemperf/src/mcperf --linger=0 --timeout=5 --num-conns=100 --conn-rate=1000 --num-calls=10000 --call-rate=1000 --sizes=u10,1024 --method=get --port=11211
     sleep 20s
     echo "[Thread $i]: mcperf executed"
 
