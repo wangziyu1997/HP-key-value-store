@@ -52,112 +52,94 @@
 
 
 
-echo "1.7 -o slab_reassign,slab_automove" >> ./plot_data/memcached.dat
-echo "-o slab_reassign,slab_automove: NO" >> ./plot_data/memcached.dat
-for j in 1 10 50 100 200 300 400 500 600 700 800 900 1000;
-do
-    # echo $i
-    # echo $j
-    num_calls=$((1000000/$j))
-    echo -n $j >> ./plot_data/memcached.dat
-    ../tool/memcached-1.5.14/memcached -d -m 1024 -u root -p 11211 -P /tmp/memcached.pid 
-    sleep 1s
-    ../tool/twemperf/src/mcperf --num-conns=$j --conn-rate=1000000 --num-calls=$num_calls --sizes=100 --method=set --port=11211 
-    sleep 20s
-    kill `cat /tmp/memcached.pid`
-    sleep 1s
-done
-
-echo "-o slab_reassign,slab_automove: YES" >> ./plot_data/memcached.dat
-for j in 1 10 50 100 200 300 400 500 600 700 800 900 1000;
-do
-    # echo $i
-    # echo $j
-    num_calls=$((1000000/$j))
-    echo -n $j >> ./plot_data/memcached.dat
-    ../tool/memcached-1.5.14/memcached -d -m 1024 -u root -p 11211 -P /tmp/memcached.pid -o slab_reassign,slab_automove
-    sleep 1s
-    ../tool/twemperf/src/mcperf --num-conns=$j --conn-rate=1000000 --num-calls=$num_calls --sizes=100 --method=set --port=11211 
-    sleep 20s
-    kill `cat /tmp/memcached.pid`
-    sleep 1s
-done
-
-echo "2.7 -o slab_reassign,slab_automove" >> ./plot_data/memcached.dat
-echo "-o slab_reassign,slab_automove: NO" >> ./plot_data/memcached.dat
-for j in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25;
-do
-    # echo $i
-    # echo $j
-    call_rate=$(($j*100))
-    ../tool/memcached-1.5.14/memcached -d -m 1024 -u root -p 11211 -P /tmp/memcached.pid 
-    sleep 1s
-    ../tool/twemperf/src/mcperf --num-conns=100 --conn-rate=10000 --num-calls=1000 --call-rate=$call_rate --sizes=100 --method=get --port=11211 
-    sleep 20s
-    kill `cat /tmp/memcached.pid`
-    sleep 1s
-done
-
-echo "-o slab_reassign,slab_automove: YES" >> ./plot_data/memcached.dat
-for j in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25;
-do
-    # echo $i
-    # echo $j
-    call_rate=$(($j*100))
-    ../tool/memcached-1.5.14/memcached -d -m 1024 -u root -p 11211 -P /tmp/memcached.pid -o slab_reassign,slab_automove
-    sleep 1s
-    ../tool/twemperf/src/mcperf --num-conns=100 --conn-rate=10000 --num-calls=1000 --call-rate=$call_rate --sizes=100 --method=get --port=11211 
-    sleep 20s
-    kill `cat /tmp/memcached.pid`
-    sleep 1s
-done
-
-# echo "3. Memory utilization 柱状图" >> ./plot_data/memcached.dat
-# echo "3.3 chunk_size+growth_factor" >> ./plot_data/memcached.dat
-# for i in 1 2 3 4 10 20 30 40;
+# echo "1.7 -o slab_reassign,slab_automove" >> ./plot_data/memcached.dat
+# echo "-o slab_reassign,slab_automove: NO" >> ./plot_data/memcached.dat
+# for j in 1 10 50 100 200 300 400 500 600 700 800 900 1000;
 # do
-#     echo "Thread　number: $i" >> ./plot_data/memcached.dat
-
-#     for j in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25;
-#         do
-#             # echo $i
-#             # echo $j
-#             call_rate=$(($j*100))
-#             ../tool/memcached-1.5.14/memcached -d -m 1024 -u root -p 11211 -P /tmp/memcached.pid -t $i
-#             sleep 1s
-#             ../tool/twemperf/src/mcperf --linger=0 --timeout=5 --num-conns=100 --conn-rate=10000 --num-calls=1000 --call-rate=$call_rate --sizes=u10,1024 --method=get --port=11211 
-#             sleep 20s
-#             kill `cat /tmp/memcached.pid`
-#             sleep 1s
-#         done
+#     # echo $i
+#     # echo $j
+#     num_calls=$((1000000/$j))
+#     echo -n $j >> ./plot_data/memcached.dat
+#     ../tool/memcached-1.5.14/memcached -d -m 1024 -u root -p 11211 -P /tmp/memcached.pid 
+#     sleep 1s
+#     ../tool/twemperf/src/mcperf --num-conns=$j --conn-rate=1000000 --num-calls=$num_calls --sizes=100 --method=set --port=11211 
+#     sleep 20s
+#     kill `cat /tmp/memcached.pid`
+#     sleep 1s
 # done
 
-# 0 100 200 300 400 500 600 700 800 900 1000 
-# 250 500 750 1000 10000 50000 100000
-# echo "3.4 -o slab_reassign,slab_automove" >> ./plot_data/memcached.dat
-# for i in 1 2 3 4 10 20 30 40;
+# echo "-o slab_reassign,slab_automove: YES" >> ./plot_data/memcached.dat
+# for j in 1 10 50 100 200 300 400 500 600 700 800 900 1000;
 # do
-#     echo "Thread　number: $i" >> ./plot_data/memcached.dat
-
-#     for j in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25;
-#         do
-#             # echo $i
-#             # echo $j
-#             call_rate=$(($j*100))
-#             ../tool/memcached-1.5.14/memcached -d -m 1024 -u root -p 11211 -P /tmp/memcached.pid -t $i
-#             sleep 1s
-#             ../tool/twemperf/src/mcperf --linger=0 --timeout=5 --num-conns=100 --conn-rate=10000 --num-calls=1000 --call-rate=$call_rate --sizes=u10,1024 --method=get --port=11211 
-#             sleep 20s
-#             kill `cat /tmp/memcached.pid`
-#             sleep 1s
-#         done
+#     # echo $i
+#     # echo $j
+#     num_calls=$((1000000/$j))
+#     echo -n $j >> ./plot_data/memcached.dat
+#     ../tool/memcached-1.5.14/memcached -d -m 1024 -u root -p 11211 -P /tmp/memcached.pid -o slab_reassign,slab_automove
+#     sleep 1s
+#     ../tool/twemperf/src/mcperf --num-conns=$j --conn-rate=1000000 --num-calls=$num_calls --sizes=100 --method=set --port=11211 
+#     sleep 20s
+#     kill `cat /tmp/memcached.pid`
+#     sleep 1s
 # done
 
-# echo "4. memcached钙化问题" >> ./plot_data/memcached.dat
-#printf "stats settings\n" | nc localhost 11211 | grep 'move\|assign'
-# ./mcperf --num-conns=100 --conn-rate=1000 --sizes=0.01 --num-calls=10000
-# ./mcperf --num-conns=100 --conn-rate=1000 --sizes=0.001 --num-calls=1000
-# ./mcperf --num-conns=100 --conn-rate=1000 --sizes=0.0001 --num-calls=100
-# ./mcperf --num-conns=100 --conn-rate=1000 --sizes=0.00001 --num-calls=10
+# echo "2.7 -o slab_reassign,slab_automove" >> ./plot_data/memcached.dat
+# echo "-o slab_reassign,slab_automove: NO" >> ./plot_data/memcached.dat
+# for j in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25;
+# do
+#     # echo $i
+#     # echo $j
+#     call_rate=$(($j*100))
+#     ../tool/memcached-1.5.14/memcached -d -m 1024 -u root -p 11211 -P /tmp/memcached.pid 
+#     sleep 1s
+#     ../tool/twemperf/src/mcperf --num-conns=100 --conn-rate=10000 --num-calls=1000 --call-rate=$call_rate --sizes=100 --method=get --port=11211 
+#     sleep 20s
+#     kill `cat /tmp/memcached.pid`
+#     sleep 1s
+# done
+
+# echo "-o slab_reassign,slab_automove: YES" >> ./plot_data/memcached.dat
+# for j in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25;
+# do
+#     # echo $i
+#     # echo $j
+#     call_rate=$(($j*100))
+#     ../tool/memcached-1.5.14/memcached -d -m 1024 -u root -p 11211 -P /tmp/memcached.pid -o slab_reassign,slab_automove
+#     sleep 1s
+#     ../tool/twemperf/src/mcperf --num-conns=100 --conn-rate=10000 --num-calls=1000 --call-rate=$call_rate --sizes=100 --method=get --port=11211 
+#     sleep 20s
+#     kill `cat /tmp/memcached.pid`
+#     sleep 1s
+# done
+
+# echo "3. memcached钙化问题" >> ./plot_data/memcached.dat
+# ../tool/memcached-1.5.14/memcached -d -u root -p 11211 -P /tmp/memcached.pid -o slab_reassign,slab_automove
+# ../tool/twemperf/src/mcperf --num-conns=100 --conn-rate=1000 --sizes=0.01 --num-calls=10000
+# ../tool/twemperf/src/mcperf --num-conns=100 --conn-rate=1000 --sizes=0.001 --num-calls=1000
+# ../tool/twemperf/src/mcperf --num-conns=100 --conn-rate=1000 --sizes=0.0001 --num-calls=100
+# ../tool/twemperf/src/mcperf --num-conns=100 --conn-rate=1000 --sizes=0.00001 --num-calls=10
+# ../tool/memcached-1.5.14/scripts/memcached-tool localhost:11211
+# kill `cat /tmp/memcached.pid`
+
+
+echo "4. Memory utilization 柱状图" >> ./plot_data/memcached.dat
+echo "3.3 chunk_size+growth_factor" >> ./plot_data/memcached.dat
+for i in 1 2 3 4 10 20 30 40;
+do
+    echo "Thread　number: $i" >> ./plot_data/memcached.dat
+
+    for j in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25;
+        do
+            # echo $i
+            # echo $j
+            call_rate=$(($j*100))
+            ../tool/memcached-1.5.14/memcached -d -m 1024 -u root -p 11211 -P /tmp/memcached.pid -t $i
+            sleep 1s
+            ../tool/twemperf/src/mcperf --linger=0 --timeout=5 --num-conns=100 --conn-rate=10000 --num-calls=1000 --call-rate=$call_rate --sizes=u10,1024 --method=get --port=11211 
+            sleep 20s
+            kill `cat /tmp/memcached.pid`
+            sleep 1s
+        done
+done
 
 

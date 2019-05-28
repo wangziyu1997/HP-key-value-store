@@ -1,0 +1,5 @@
+  #  Item_Size  Max_age   Pages   Count   Full?  Evicted Evict_Time OOM
+  4     192B         8s      64  349504     yes   650496        6    0
+ 12     1.2K         0s       1     885     yes    99115        0    0
+ 22    10.8K         0s       1      94     yes     9906        0    0
+ 32   101.1K         0s       1      10     yes      157        0  833
