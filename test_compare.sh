@@ -126,3 +126,5 @@ do
             sleep 1s
         done
 done
+
+ycsb
