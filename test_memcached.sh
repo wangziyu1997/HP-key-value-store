@@ -4,7 +4,7 @@
 #threads,maxconns,chunk_size,growth_factor,-C,-L
 #maxmemory_policy,maxmemory,RDB,AOF,maxclients
 
-# cd ./plot_data
+cd ./plot_data
 rm memcached.dat
 touch memcached.dat
 cd ..
