@@ -18,12 +18,12 @@ do
         do
             # echo $i
             # echo $j
-            num_calls=$((100000/$j))
+            num_calls=$((500000/$j))
             echo -n $j >> ./plot_data/memcached.dat
             ../tool/memcached-1.5.14/memcached -d -m 1024 -u root -p 11211 -P /tmp/memcached.pid -t $i
             sleep 1s
             ../tool/twemperf/src/mcperf --num-conns=$j --conn-rate=1000000 --num-calls=$num_calls --sizes=100 --method=set --port=11211 
-            sleep 5s
+            sleep 10s
             kill `cat /tmp/memcached.pid`
             sleep 1s
         done
@@ -38,11 +38,11 @@ do
         do
             # echo $i
             # echo $j
-            call_rate=$(($j*100))
+            call_rate=$(($j*500))
             ../tool/memcached-1.5.14/memcached -d -m 1024 -u root -p 11211 -P /tmp/memcached.pid -t $i
             sleep 1s
             ../tool/twemperf/src/mcperf --num-conns=100 --conn-rate=10000 --num-calls=100 --call-rate=$call_rate --sizes=100 --method=get --port=11211 
-            sleep 5s
+            sleep 10s
             kill `cat /tmp/memcached.pid`
             sleep 1s
         done
