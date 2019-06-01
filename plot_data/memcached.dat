@@ -7,3 +7,9 @@
  1812.6
  61879.4
  69321.9
+3.3 chunk_size+growth_factor
+Thread　number: 10
+Thread　number: 100
+Thread　number: 1000
+Thread　number: 10000
+Thread　number: 100000

@@ -4,7 +4,7 @@
 #threads,maxconns,chunk_size,growth_factor,-C,-L
 #maxmemory_policy,maxmemory,RDB,AOF,maxclients
 
-cd ./plot_data
+# cd ./plot_data
 rm memcached.dat
 touch memcached.dat
 cd ..
@@ -23,7 +23,7 @@ do
             ../tool/memcached-1.5.14/memcached -d -m 1024 -u root -p 11211 -P /tmp/memcached.pid -t $i
             sleep 1s
             ../tool/twemperf/src/mcperf --num-conns=$j --conn-rate=1000000 --num-calls=$num_calls --sizes=100 --method=set --port=11211 
-            sleep 10s
+            sleep 15s
             kill `cat /tmp/memcached.pid`
             sleep 1s
         done
@@ -38,30 +38,32 @@ do
         do
             # echo $i
             # echo $j
-            call_rate=$(($j*500))
+            call_rate=$(($j*100))
             ../tool/memcached-1.5.14/memcached -d -m 1024 -u root -p 11211 -P /tmp/memcached.pid -t $i
             sleep 1s
-            ../tool/twemperf/src/mcperf --num-conns=100 --conn-rate=10000 --num-calls=100 --call-rate=$call_rate --sizes=100 --method=get --port=11211 
-            sleep 10s
+            ../tool/twemperf/src/mcperf --num-conns=100 --conn-rate=10000 --num-calls=5000 --call-rate=$call_rate --sizes=100 --method=get --port=11211 
+            sleep 15s
             kill `cat /tmp/memcached.pid`
             sleep 1s
         done
 done
 
-# echo "4. Memory utilization 柱状图" >> ./plot_data/memcached.dat
+
 # echo "3.3 chunk_size+growth_factor" >> ./plot_data/memcached.dat
-# for i in 1 2 3 4 10 20 30 40;
+# for i in 10 100 1000 10000 100000;
 # do
 #     echo "Thread　number: $i" >> ./plot_data/memcached.dat
 
-#     for j in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25;
+#     for j in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20
 #         do
 #             # echo $i
 #             # echo $j
-#             call_rate=$(($j*100))
-#             ../tool/memcached-1.5.14/memcached -d -m 1024 -u root -p 11211 -P /tmp/memcached.pid -t $i
+#             growth_factor=$(expr "scale=2;1 + 0.05*$j"|bc)
+#             echo "u1,$i"
+#             echo "growth_factor $growth_factor"
+#             ../tool/memcached-1.5.14/memcached -d -m 1024 -u root -p 11211 -P /tmp/memcached.pid -f $growth_factor
 #             sleep 1s
-#             ../tool/twemperf/src/mcperf --linger=0 --timeout=5 --num-conns=100 --conn-rate=10000 --num-calls=1000 --call-rate=$call_rate --sizes=u10,1024 --method=get --port=11211 
+#             ../tool/twemperf/src/mcperf --num-conns=100 --num-calls=1000 --sizes=u1,$i --method=get --port=11211 
 #             sleep 20s
 #             kill `cat /tmp/memcached.pid`
 #             sleep 1s
