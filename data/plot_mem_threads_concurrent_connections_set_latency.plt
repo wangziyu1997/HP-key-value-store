@@ -19,7 +19,7 @@ set mxtics 2
 #set logscale y
 set key top left
 set key samplen 1.8 spacing 1 width 1 height 0.5 font ",20" maxrows 5
-
+set xrange[1:*]
 
 plot  \
 	"./memcached/concurrent_connections/CC_Throughput_set_threads_number1_latency.dat" u 1:($2) title "Threads1" w lp lt 3 lw 3 pt 7 ps 1.5 lc rgb '#EEB422', \

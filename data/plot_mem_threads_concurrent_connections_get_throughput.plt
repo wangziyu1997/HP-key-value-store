@@ -20,6 +20,7 @@ set mxtics 2
 set key top left
 set key samplen 1.8 spacing 1 width 1 height 0.5 font ",20" maxrows 5
 set yrange[*:300000]
+set xrange[1:*]
 
 plot  \
 	"./memcached/concurrent_connections/CC_Throughput_get_threads_number1_throughput.dat" u 1:($2) title "Threads1" w lp lt 3 lw 3 pt 7 ps 1.5 lc rgb '#EEB422', \

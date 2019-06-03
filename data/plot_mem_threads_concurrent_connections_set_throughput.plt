@@ -20,6 +20,7 @@ set mxtics 2
 set key top left
 set key samplen 1.8 spacing 1 width 1 height 0.5 font ",20" maxrows 5
 set yrange[*:300000]
+set xrange[1:*]
 
 #plot "./memcached/Throughput_Throughput_set_threads_number1.dat" u 1:($2) title "T40" w lp lt 1 lw 3 pt 2 ps 1.8 lc rgb '#ff7373'
 plot  \
