@@ -3,15 +3,15 @@
 #1 3 5 7 9 11 13 15 17 19 21 23 25 27 29 31 33 35 37 39 41 43 45 47 49 51 53 55 57 59 61 63
 #threads,maxconns,chunk_size,growth_factor,lru_maintatiner_thread,lru_segmented,tmp_lru,-C,-L
 #maxmemory－policy,maxmemory,maxclients, timeout, tcp-keepalive, save(注释掉), appendfsync(11 10 01 00)
-# cd ./plot_data
-# rm redis.dat
-# touch redis.dat
-# rm redis_memomory.dat
-# touch redis_memomory.dat
-# cd ..
-# sed -i "s/# maxmemory <bytes>/maxmemory 64mb/g" ../tool/redis-5.0.5/redis.conf
-# sed -i "s/# maxmemory-policy noeviction/maxmemory-policy allkeys-lru/g" ../tool/redis-5.0.5/redis.conf
-# old_policy="allkeys-lru"
+cd ./plot_data
+rm redis.dat
+touch redis.dat
+rm redis_memomory.dat
+touch redis_memomory.dat
+cd ..
+sed -i "s/# maxmemory <bytes>/maxmemory 64mb/g" ../tool/redis-5.0.5/redis.conf
+sed -i "s/# maxmemory-policy noeviction/maxmemory-policy allkeys-lru/g" ../tool/redis-5.0.5/redis.conf
+old_policy="allkeys-lru"
 # echo "CC-Throughput_Latency_set_nopipe" >> ./plot_data/redis.dat
 # for i in 1 10 50 100 200 300 400 500 600 700 800 900 1000;
 # do
