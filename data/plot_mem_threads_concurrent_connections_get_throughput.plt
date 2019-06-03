@@ -9,7 +9,7 @@ set pointsize 0.8
 set size 1.0,1.0
 
 set title "Concurrent Connections Throughput Get"
-set ylabel "Throughput" font ",24"
+set ylabel "Throughput (rsp/s)" font ",24"
 set xlabel "Concurrent Connections" font ",24"
 
 set ytics nomirror font ",20"
