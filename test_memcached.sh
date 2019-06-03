@@ -1,8 +1,5 @@
 #!/bin/sh
-#/usr/local/tool/memcached-1.5.14/memcached -d -l 127.0.0.1 -p 11211 -u root -m 64 -c 1024 -P /var/run/memcached.pid
-#1 3 5 7 9 11 13 15 17 19 21 23 25 27 29 31 33 35 37 39 41 43 45 47 49 51 53 55 57 59 61 63
-#threads,maxconns,chunk_size,growth_factor,-C,-L
-#maxmemory_policy,maxmemory,RDB,AOF,maxclients
+#STAT limit_maxbytes 67108864
 
 # cd ./plot_data
 # rm memcached.dat
@@ -92,23 +89,23 @@ rm growth_factor.dat
 touch growth_factor.dat
 cd ..
 
-echo "3.3 chunk_size+growth_factor" >> ./plot_data/memcached.dat
+echo "3.3 chunk_size+growth_factor" >> ./plot_data/growth_factor.dat
 for i in 100 1000 10000 100000;
 do
-    echo "Thread　number: $i" >> ./plot_data/memcached.dat
+    echo "Thread　number: $i" >> ./plot_data/growth_factor.dat
 
     for j in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20
         do
             # echo $i
             # echo $j
             growth_factor=$(expr "scale=2;1 + 0.05*$j"|bc)
-            echo "u1,$i growth_factor $growth_factor" >> ./plot_data/memcached.dat
+            echo "u1,$i growth_factor $growth_factor" >> ./plot_data/growth_factor.dat
             ../tool/memcached-1.5.14/memcached -d -m 64 -u root -p 11211 -P /tmp/memcached.pid -f $growth_factor
             sleep 1s
             ../tool/twemperf/src/mcperf --num-conns=100 --num-calls=10000 --sizes=u1,$i --method=set --port=11211 
             sleep 40s
-            # printf "stats\r\n" | nc localhost 11211 | grep -E " evictions | bytes | limit_maxbytes " >> ./plot_data/memcached.dat
-            printf "stats\r\n" | nc -w 1 localhost 11211 >> ./plot_data/memcached.dat 2>&1
+            # printf "stats\r\n" | nc localhost 11211 | grep -E " evictions | bytes | limit_maxbytes " >> ./plot_data/growth_factor.dat
+            printf "stats\r\n" | nc -w 1 localhost 11211 >> ./plot_data/growth_factor.dat 2>&1
             sleep 1s
             kill `cat /tmp/memcached.pid`
             sleep 1s

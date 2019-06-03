@@ -84,3 +84,7 @@ STAT lru_bumps_dropped 0
 END
 u1,100 growth_factor 1.10
  35231.4
+CC-Throughput_Latency_set_nopipe
+CC-Throughput_Latency_set_pipe
+CC-Throughput_Latency_get_nopipe
+CC-Throughput_Latency_get_pipe

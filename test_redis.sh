@@ -3,121 +3,110 @@
 #1 3 5 7 9 11 13 15 17 19 21 23 25 27 29 31 33 35 37 39 41 43 45 47 49 51 53 55 57 59 61 63
 #threads,maxconns,chunk_size,growth_factor,lru_maintatiner_thread,lru_segmented,tmp_lru,-C,-L
 #maxmemory－policy,maxmemory,maxclients, timeout, tcp-keepalive, save(注释掉), appendfsync(11 10 01 00)
-
 cd ./plot_data
 rm redis.dat
 touch redis.dat
 cd ..
+sed -i "s/# maxmemory <bytes>/maxmemory 64mb/g" ../tool/redis-5.0.5/redis.conf
 
-echo "1. Concurrent Connections-Throughput 关系图" >> ./plot_data/memcached.dat
-echo "1.4 RDB AOF" >> ./plot_data/memcached.dat
-for i in 1 2 3 4 5 6 7 8 9 10;
+echo "CC-Throughput_Latency_set_nopipe" >> ./plot_data/redis.dat
+for i in 1 10 50 100 200 300 400 500 600 700 800 900 1000;
 do
-    echo "maxclients: $i" >> ./plot_data/redis.dat
-
-    for j in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25;
-        do
-            # echo $i
-            # echo $j
-            maxclients=$(($i*1000))
-            ../tool/redis-5.0.5/redis-server 
-            sleep 1s
-            sed -i "s/maxclients $old_maxclients/maxclients $maxclients/g" ../tool/redis-5.0.5/redis.conf
-            old_maxclients=$maxclients
-            ../tool/redis-5.0.5/redis-benchmark -c 100 -n 100000
-            sleep 20s
-            kill `cat /tmp/redis.pid`
-            sleep 1s
-        done
+    # echo $i
+    # echo $j
+    # maxclients=$(($i*1000))
+    ../tool/redis-5.0.5/src/redis-server ../tool/redis-5.0.5/redis.conf &
+    sleep 1s
+    echo -n $i >> ./plot_data/redis.dat
+    ../tool/redis-5.0.5/src/redis-benchmark -c $i -n 500000 -t set
+    sleep 10s
+    ../tool/redis-5.0.5/src/redis-cli shutdown
+    sleep 1s
 done
 
-
-echo "2. Throughput-Latency 关系图" >> ./plot_data/memcached.dat
-echo "2.4 RDB AOF" >> ./plot_data/memcached.dat
-for i in 1 2 3 4 5 6 7 8 9 10;
+echo "CC-Throughput_Latency_set_pipe" >> ./plot_data/redis.dat
+for i in 1 10 50 100 200 300 400 500 600 700 800 900 1000;
 do
-    echo "maxclients: $i" >> ./plot_data/redis.dat
-
-    for j in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25;
-        do
-            # echo $i
-            # echo $j
-            maxclients=$(($i*1000))
-            ../tool/redis-5.0.5/redis-server 
-            sleep 1s
-            sed -i "s/maxclients $old_maxclients/maxclients $maxclients/g" ../tool/redis-5.0.5/redis.conf
-            old_maxclients=$maxclients
-            ../tool/redis-5.0.5/redis-benchmark -c 100 -n 100000
-            sleep 20s
-            kill `cat /tmp/redis.pid`
-            sleep 1s
-        done
+    # echo $i
+    # echo $j
+    # maxclients=$(($i*1000))
+    ../tool/redis-5.0.5/src/redis-server ../tool/redis-5.0.5/redis.conf &
+    sleep 1s
+    echo -n $i >> ./plot_data/redis.dat
+    ../tool/redis-5.0.5/src/redis-benchmark -c $i -n 500000 -t set -P 16
+    sleep 10s
+    ../tool/redis-5.0.5/src/redis-cli shutdown
+    sleep 1s
 done
 
-
-
-echo "1. Concurrent Connections-Throughput 关系图" >> ./plot_data/memcached.dat
-echo "1.3 maxmemory-policy" >> ./plot_data/memcached.dat
-for i in 1 2 3 4 5 6 7 8 9 10;
+echo "CC-Throughput_Latency_get_nopipe" >> ./plot_data/redis.dat
+for i in 1 10 50 100 200 300 400 500 600 700 800 900 1000;
 do
-    echo "maxclients: $i" >> ./plot_data/redis.dat
-
-    for j in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25;
-        do
-            # echo $i
-            # echo $j
-            maxclients=$(($i*1000))
-            ../tool/redis-5.0.5/redis-server 
-            sleep 1s
-            sed -i "s/maxclients $old_maxclients/maxclients $maxclients/g" ../tool/redis-5.0.5/redis.conf
-            old_maxclients=$maxclients
-            ../tool/redis-5.0.5/redis-benchmark -c 100 -n 100000
-            sleep 20s
-            kill `cat /tmp/redis.pid`
-            sleep 1s
-        done
+    # echo $i
+    # echo $j
+    # maxclients=$(($i*1000))
+    ../tool/redis-5.0.5/src/redis-server ../tool/redis-5.0.5/redis.conf &
+    sleep 1s
+    echo -n $i >> ./plot_data/redis.dat
+    ../tool/redis-5.0.5/src/redis-benchmark -c $i -n 500000 -t get
+    sleep 10s
+    ../tool/redis-5.0.5/src/redis-cli shutdown
+    sleep 1s
 done
 
-echo "2. Throughput-Latency 关系图" >> ./plot_data/memcached.dat
-echo "2.3 maxmemory-policy" >> ./plot_data/memcached.dat
-for i in 1 2 3 4 5 6 7 8 9 10;
+echo "CC-Throughput_Latency_get_pipe" >> ./plot_data/redis.dat
+for i in 1 10 50 100 200 300 400 500 600 700 800 900 1000;
 do
-    echo "maxclients: $i" >> ./plot_data/redis.dat
-
-    for j in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25;
-        do
-            # echo $i
-            # echo $j
-            maxclients=$(($i*1000))
-            ../tool/redis-5.0.5/redis-server 
-            sleep 1s
-            sed -i "s/maxclients $old_maxclients/maxclients $maxclients/g" ../tool/redis-5.0.5/redis.conf
-            old_maxclients=$maxclients
-            ../tool/redis-5.0.5/redis-benchmark -c 100 -n 100000
-            sleep 20s
-            kill `cat /tmp/redis.pid`
-            sleep 1s
-        done
+    # echo $i
+    # echo $j
+    # maxclients=$(($i*1000))
+    ../tool/redis-5.0.5/src/redis-server ../tool/redis-5.0.5/redis.conf &
+    sleep 1s
+    echo -n $i >> ./plot_data/redis.dat
+    ../tool/redis-5.0.5/src/redis-benchmark -c $i -n 500000 -t get -P 16
+    sleep 10s
+    ../tool/redis-5.0.5/src/redis-cli shutdown
+    sleep 1s
 done
 
-echo "3. Memory utilization 柱状图" >> ./plot_data/memcached.dat
-echo "3.1 maxmemory-policy" >> ./plot_data/memcached.dat
-for i in 1 2 3 4 5 6 7 8 9 10;
+for j in 10 100 1000 10000 100000 
 do
-    echo "maxclients: $i" >> ./plot_data/redis.dat
-
-    for j in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25;
-        do
-            # echo $i
-            # echo $j
-            maxclients=$(($i*1000))
-            ../tool/redis-5.0.5/redis-server 
-            sleep 1s
-            sed -i "s/maxclients $old_maxclients/maxclients $maxclients/g" ../tool/redis-5.0.5/redis.conf
-            old_maxclients=$maxclients
-            ../tool/redis-5.0.5/redis-benchmark -c 100 -n 100000
-            sleep 20s
-            kill `cat /tmp/redis.pid`
-            sleep 1s
-        done
+    for i in 1 10 50 100 200 300 400 500 600 700 800 900 1000;
+    do
+        echo "Throughput_set_nopersist$j" >> ./plot_data/redis.dat
+        ../tool/redis-5.0.5/src/redis-server ../tool/redis-5.0.5/redis.conf &
+        sleep 1s
+        echo -n $i >> ./plot_data/redis.dat
+        ../tool/redis-5.0.5/src/redis-benchmark -c $i -n 500000 -t set -d $j
+        sleep 10s
+        ../tool/redis-5.0.5/src/redis-cli shutdown
+        sleep 1s
+    done
 done
+
+sed -i "s/appendfsync everysec/appendfsync no/g" ../tool/redis-5.0.5/redis.conf
+sed -i "s/save 900 1/# save 900 1/g" ../tool/redis-5.0.5/redis.conf
+sed -i "s/save 300 10/# save 300 10/g" ../tool/redis-5.0.5/redis.conf
+sed -i "s/save 60 10000/# save 60 10000/g" ../tool/redis-5.0.5/redis.conf
+
+
+for j in 10 100 1000 10000 100000 
+do
+    for i in 1 10 50 100 200 300 400 500 600 700 800 900 1000;
+    do
+        echo "Throughput_set_nopersist$j" >> ./plot_data/redis.dat
+        ../tool/redis-5.0.5/src/redis-server ../tool/redis-5.0.5/redis.conf &
+        sleep 1s
+        echo -n $i >> ./plot_data/redis.dat
+        ../tool/redis-5.0.5/src/redis-benchmark -c $i -n 500000 -t set -d $j
+        sleep 10s
+        ../tool/redis-5.0.5/src/redis-cli shutdown
+        sleep 1s
+    done
+done
+
+sed -i "s/appendfsync no/appendfsync everysec/g" ../tool/redis-5.0.5/redis.conf
+sed -i "s/# save 900 1/save 900 1/g" ../tool/redis-5.0.5/redis.conf
+sed -i "s/# save 300 10/save 300 10/g" ../tool/redis-5.0.5/redis.conf
+sed -i "s/# save 60 10000/save 60 10000/g" ../tool/redis-5.0.5/redis.conf
+
