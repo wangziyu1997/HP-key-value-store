@@ -1,0 +1,7 @@
+volatile-lru 0
+allkeys-lru 997359
+volatile-lfu 0
+allkeys-lfu 997071
+volatile-random 0
+allkeys-random 997214
+volatile-ttl 0

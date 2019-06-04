@@ -7,6 +7,7 @@ bytes_name = "bytes100"
 
 pipe_name="CC-Throughput_Latency_set_nopipe"
 persist_name="Throughput_set_persist10"
+flag=1
 
 def stre(s):
     # print(s)
@@ -119,26 +120,39 @@ def redis_persist(s):
                 per_l.write(pdata_l)
 
 def streRedis(s):
+    global flag
     # print(s)
-    pattern = "growth_factor \d*\.\d*|STAT bytes \d*|evictions \d*"
+    pattern = "volatile-lru|allkeys-lru|volatile-lfu|allkeys-lfu|volatile-random|allkeys-random|volatile-ttl|used_memory:\d*|evicted_keys:\d*"
     s = re.findall(pattern, s)
-    
     if len(s)>0:
-        data=s[0]
-        if data[0]=='g':
-            data=data+" "
-            with open('bytes_output.dat','a+') as fw:
-                fw.write(data)
-            with open('evictions_output.dat','a+') as fw:
-                fw.write(data)
-        elif data[0]=='S':
-            data=data+"\n"
-            with open('bytes_output.dat','a+') as fw:
-                fw.write(data)
+        data=s[0].split(':')
+        if len(data) == 1:
+            name=data[0]+" "
+            print(name)
+            if flag:
+                with open('./data/redis/maxmemory/maxmemory-policy_used_memory.dat','a+') as fw1:
+                    fw1.write(name)
+                flag=1-flag
+            
+            else:
+                with open('./data/redis/maxmemory/maxmemory-policy_evicted_keys.dat','a+') as fw2:
+                    fw2.write(name)
+                flag=1-flag
+        elif data[0][0]=='u':
+            with open('./data/redis/maxmemory/maxmemory-policy_used_memory.dat','a+') as fw1:
+                fw1.write(data[1]+'\n')
         else:
-            data=data+"\n"
-            with open('evictions_output.dat','a+') as fw:
-                fw.write(data)
+            with open('./data/redis/maxmemory/maxmemory-policy_evicted_keys.dat','a+') as fw2:
+                fw2.write(data[1]+'\n')
+                
+        # elif data[0]=='S':
+        #     data=data+"\n"
+        #     with open('bytes_output.dat','a+') as fw:
+        #         fw.write(data)
+        # else:
+        #     data=data+"\n"
+        #     with open('evictions_output.dat','a+') as fw:
+        #         fw.write(data)
 # with open('./data/memcached_growth_factor.dat','r') as fr0:
 #     for line in fr0:
 #         stre(line)
@@ -163,8 +177,8 @@ def streRedis(s):
 #     for line in redis3:
 #         redis_persist(line)
 
-redis2=open('./data/redis/redis3.dat','r')
-with open('./data/redis/redis_memory.dat','r') as redism:
+
+with open('./data/redis/original/redis_memory.dat','r') as redism:
     for line in redism:
         streRedis(line)
-redis2.close()
+
