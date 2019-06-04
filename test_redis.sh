@@ -129,6 +129,7 @@ do
         sleep 20s
         echo "$k $j bytes" >> ./plot_data/redis_memomory.dat
         printf "info memory\r\n" | ../tool/redis-5.0.5/src/redis-cli >> ./plot_data/redis_memomory.dat
+        printf "info stats\r\n" | ../tool/redis-5.0.5/src/redis-cli >> ./plot_data/redis_memomory.dat
         printf "quit\r\n" | ../tool/redis-5.0.5/src/redis-cli
         ../tool/redis-5.0.5/src/redis-cli shutdown
         sleep 1s
