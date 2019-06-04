@@ -117,21 +117,18 @@ old_policy="allkeys-lru"
 
 for k in volatile-lru allkeys-lru volatile-lfu allkeys-lfu volatile-random allkeys-random volatile-ttl
 do
-    for j in 1000 10000 100000 1000000
-    do
-        sed -i "s/maxmemory-policy $old_policy/maxmemory-policy $k/g" ../tool/redis-5.0.5/redis.conf
-        # echo $k $old_policy
-        old_policy=$k
-        # echo "Throughput_set_$k$j" >> ./plot_data/redis.dat
-        ../tool/redis-5.0.5/src/redis-server ../tool/redis-5.0.5/redis.conf &
-        sleep 1s
-        ../tool/redis-5.0.5/src/redis-benchmark -c 100 -n 500000 -t set -d $j
-        sleep 20s
-        echo "$k $j bytes" >> ./plot_data/redis_memomory.dat
-        printf "info memory\r\n" | ../tool/redis-5.0.5/src/redis-cli >> ./plot_data/redis_memomory.dat
-        printf "info stats\r\n" | ../tool/redis-5.0.5/src/redis-cli >> ./plot_data/redis_memomory.dat
-        printf "quit\r\n" | ../tool/redis-5.0.5/src/redis-cli
-        ../tool/redis-5.0.5/src/redis-cli shutdown
-        sleep 1s
-    done
+    sed -i "s/maxmemory-policy $old_policy/maxmemory-policy $k/g" ../tool/redis-5.0.5/redis.conf
+    # echo $k $old_policy
+    old_policy=$k
+    # echo "Throughput_set_$k$j" >> ./plot_data/redis.dat
+    ../tool/redis-5.0.5/src/redis-server ../tool/redis-5.0.5/redis.conf &
+    sleep 1s
+    ../tool/redis-5.0.5/src/redis-benchmark -c 100 -n 1000000 -t set -r 100000000
+    sleep 30s
+    echo "$k" >> ./plot_data/redis_memomory.dat
+    printf "info memory\r\n" | ../tool/redis-5.0.5/src/redis-cli >> ./plot_data/redis_memomory.dat
+    printf "info stats\r\n" | ../tool/redis-5.0.5/src/redis-cli >> ./plot_data/redis_memomory.dat
+    printf "quit\r\n" | ../tool/redis-5.0.5/src/redis-cli
+    ../tool/redis-5.0.5/src/redis-cli shutdown
+    sleep 1s
 done
