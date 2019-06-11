@@ -21,6 +21,7 @@ do
     ../tool/redis-5.0.5/src/redis-server ../tool/redis-5.0.5/redis.conf &
     sleep 1s
     echo -n $i >> ./plot_data/redis.dat
+    sleep 5s
     ../tool/redis-5.0.5/src/redis-benchmark -c $i -n 500000 -t set
     sleep 20s
     ../tool/redis-5.0.5/src/redis-cli shutdown

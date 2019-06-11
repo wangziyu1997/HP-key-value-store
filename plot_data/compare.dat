@@ -1,0 +1,3 @@
+1. Concurrent Connections-Throughput,Latency
+memcached　
+memtier_threads: 1  set_throughput 22247.53 get_throughput 22247.53 set_latency 1.12 get_latency 1.12
