@@ -1,0 +1,32 @@
+memcached
+memtier_threads: 1    781 kikiyu    20   0 1596852  23444   2000 S 147.1  0.0  33:22.13 memcached
+memtier_threads: 2   1926 kikiyu    20   0 1595692   6192   1676 S 312.5  0.0   0:09.69 memcached
+memtier_threads: 3   2000 kikiyu    20   0 1595692  10200   1624 S 347.1  0.0   0:11.88 memcached
+memtier_threads: 4   2042 kikiyu    20   0 1595692  10428   1552 S 487.5  0.0   0:16.73 memcached
+memtier_threads: 5   2081 kikiyu    20   0 1595692  13776   1748 S 641.2  0.0   0:21.29 memcached
+memtier_threads: 6   2121 kikiyu    20   0 1595692  14744   1928 S 788.2  0.0   0:25.16 memcached
+memtier_threads: 7   2174 kikiyu    20   0 1595692  15024   1780 S 894.1  0.0   0:27.97 memcached
+memtier_threads: 8   2239 kikiyu    20   0 1595692  13488   1668 S 958.8  0.0   0:30.14 memcached
+memtier_threads: 9   2287 kikiyu    20   0 1595828  16176   1656 S  1194  0.0   0:35.44 memcached
+memtier_threads: 10   2338 kikiyu    20   0 1595824  16888   1812 S  1194  0.0   0:37.38 memcached
+memtier_threads: 11   2419 kikiyu    20   0 1595824  15888   2032 S  1359  0.0   0:41.70 memcached
+memtier_threads: 12   2486 kikiyu    20   0 1595824  17932   1656 S  1324  0.0   0:40.18 memcached
+memtier_threads: 13   2541 kikiyu    20   0 1595828  18616   1780 S  1382  0.0   0:44.13 memcached
+memtier_threads: 14   2592 kikiyu    20   0 1595824  19080   1668 S  1488  0.0   0:44.76 memcached
+memtier_threads: 15   2641 kikiyu    20   0 1595824  19676   1660 S  1344  0.0   0:46.18 memcached
+redis
+memtier_threads: 1   2693 kikiyu    20   0   59848  13412   4220 R  87.5  0.0   0:02.83 redis-server
+memtier_threads: 2   2722 kikiyu    20   0   63432  15604   4184 R 100.0  0.0   0:03.16 redis-server
+memtier_threads: 3   2795 kikiyu    20   0   67528  18124   4316 R  94.1  0.0   0:03.15 redis-server
+memtier_threads: 4   2856 kikiyu    20   0   72648  20256   4284 R 106.2  0.0   0:03.15 redis-server
+memtier_threads: 5   2931 kikiyu    20   0   72648  22440   4216 R  94.1  0.0   0:03.12 redis-server
+memtier_threads: 6   2949 kikiyu    20   0   84936  26572   4152 R 100.0  0.0   0:03.12 redis-server
+memtier_threads: 7   2967 kikiyu    20   0   78792  28796   4216 R 100.0  0.0   0:03.13 redis-server
+memtier_threads: 8   2989 kikiyu    20   0   85960  29420   4232 R 100.0  0.0   0:03.12 redis-server
+memtier_threads: 9   3009 kikiyu    20   0   85960  31692   4264 R 100.0  0.0   0:03.13 redis-server
+memtier_threads: 10   3031 kikiyu    20   0   94152  35808   4152 R  93.8  0.0   0:03.12 redis-server
+memtier_threads: 11   3070 kikiyu    20   0   94152  38132   4240 R  94.1  0.0   0:03.11 redis-server
+memtier_threads: 12   3117 kikiyu    20   0  131016  55540   4152 R 100.0  0.0   0:03.09 redis-server
+memtier_threads: 13   3192 kikiyu    20   0  116680  49044   4112 R 100.0  0.0   0:03.11 redis-server
+memtier_threads: 14   3247 kikiyu    20   0  131016  58800   4276 R 100.0  0.0   0:03.10 redis-server
+memtier_threads: 15   3277 kikiyu    20   0  131016  64280   4176 R 106.2  0.0   0:03.10 redis-server
