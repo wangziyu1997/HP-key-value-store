@@ -1,0 +1,15 @@
+memtier_threads: 1  set_throughput 41845.08 get_throughput 41845.08 set_latency 0.60 get_latency 0.59
+memtier_threads: 2  set_throughput 85507.21 get_throughput 85507.21 set_latency 0.60 get_latency 0.60
+memtier_threads: 3  set_throughput 129107.57 get_throughput 129107.57 set_latency 0.62 get_latency 0.61
+memtier_threads: 4  set_throughput 154969.67 get_throughput 154969.67 set_latency 0.66 get_latency 0.65
+memtier_threads: 5  set_throughput 208380.58 get_throughput 208380.58 set_latency 0.63 get_latency 0.62
+memtier_threads: 6  set_throughput 227456.71 get_throughput 227456.71 set_latency 0.66 get_latency 0.66
+memtier_threads: 7  set_throughput 260871.44 get_throughput 260871.44 set_latency 0.67 get_latency 0.67
+memtier_threads: 8  set_throughput 300601.35 get_throughput 300601.35 set_latency 0.68 get_latency 0.67
+memtier_threads: 9  set_throughput 349794.21 get_throughput 349794.21 set_latency 0.66 get_latency 0.65
+memtier_threads: 10  set_throughput 363909.26 get_throughput 363909.26 set_latency 0.69 get_latency 0.68
+memtier_threads: 11  set_throughput 381047.26 get_throughput 381047.26 set_latency 0.72 get_latency 0.71
+memtier_threads: 12  set_throughput 422646.02 get_throughput 422646.02 set_latency 0.76 get_latency 0.75
+memtier_threads: 13  set_throughput 425564.29 get_throughput 425564.29 set_latency 0.79 get_latency 0.78
+memtier_threads: 14  set_throughput 395924.38 get_throughput 395924.38 set_latency 0.84 get_latency 0.84
+memtier_threads: 15  set_throughput 418645.25 get_throughput 418645.25 set_latency 0.86 get_latency 0.85

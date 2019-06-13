@@ -13,7 +13,7 @@ echo "memcached"?>> ./plot_data/top.dat
 for i in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15;
 do
     echo -n "memtier_threads: $i " >> ./plot_data/compare.dat
-    echo -n "memtier_threads: $i " >> ./plot_data/top.dat
+    echo "memtier_threads: $i " >> ./plot_data/top.dat
     
     ../tool/memcached-1.5.14/memcached -d -m 64 -u root -p 11211 -P /tmp/memcached.pid -t 20 
     sleep 1s
@@ -29,7 +29,7 @@ echo "redis"?>> ./plot_data/top.dat
 for i in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15;
 do
     echo -n "memtier_threads: $i " >> ./plot_data/compare.dat
-    echo -n "memtier_threads: $i " >> ./plot_data/top.dat
+    echo "memtier_threads: $i " >> ./plot_data/top.dat
     
     ../tool/redis-5.0.5/src/redis-server ../tool/redis-5.0.5/redis_original.conf &
     sleep 1s

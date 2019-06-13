@@ -10,7 +10,6 @@ persist_name="Throughput_set_persist10"
 flag=1
 
 def stre(s):
-    # print(s)
     pattern = "growth_factor \d*\.\d*|STAT bytes \d*|evictions \d*"
     s = re.findall(pattern, s)
     
@@ -79,11 +78,6 @@ def cut3(s):
                 fw3.write(data3)
         with open(thread_name_l,'a+') as fw4:
                 fw4.write(data4)
-    # elif len(strs)==2:
-    #     data5=strs[0]+" "+strs[1]+"\n"
-    #     thread_name_tl="./data//memcached/concurrent_connections"+thread_name+".dat"
-    #     with open(thread_name_tl,'a+') as fw5:
-    #             fw5.write(data5)
 
 def redis_pipe(s):
     print(s)
@@ -145,14 +139,18 @@ def streRedis(s):
             with open('./data/redis/maxmemory/maxmemory-policy_evicted_keys.dat','a+') as fw2:
                 fw2.write(data[1]+'\n')
                 
-        # elif data[0]=='S':
-        #     data=data+"\n"
-        #     with open('bytes_output.dat','a+') as fw:
-        #         fw.write(data)
-        # else:
-        #     data=data+"\n"
-        #     with open('evictions_output.dat','a+') as fw:
-        #         fw.write(data)
+def compare_cpu_r(num,s):
+    strs=s.split()
+    if len(strs)==12:
+        with open('./data/compare/redistop.dat','a+') as fw1:
+            fw1.write(str(num)+' '+strs[8]+'\n')
+
+def compare_cpu_m(num,s):
+    strs=s.split()
+    if len(strs)==12:
+        with open('./data/compare/memtop.dat','a+') as fw1:
+            fw1.write(str(num)+' '+strs[8]+'\n')     
+
 # with open('./data/memcached_growth_factor.dat','r') as fr0:
 #     for line in fr0:
 #         stre(line)
@@ -178,7 +176,18 @@ def streRedis(s):
 #         redis_persist(line)
 
 
-with open('./data/redis/original/redis_memory.dat','r') as redism:
-    for line in redism:
-        streRedis(line)
+# with open('./data/redis/original/redis_memory.dat','r') as redism:
+#     for line in redism:
+#         streRedis(line)
 
+# topnum = 0
+# with open('./plot_data/top_redis.dat','r') as redistop:
+#     for line in redistop:
+#         topnum+=1
+#         compare_cpu_r(topnum,line) 
+    
+# topnum = 0
+# with open('./plot_data/top_memcached.dat','r') as memtop:
+#     for line in memtop:
+#         topnum+=1
+#         compare_cpu_m(topnum,line) 
