@@ -4,7 +4,7 @@ rm top.dat
 touch compare.dat
 touch top.dat
 cd ..
-
+#高并发场景
 sed -i "s/# maxmemory <bytes>/maxmemory 64mb/g" ../tool/redis-5.0.5/redis_original.conf
 
 echo "1. Concurrent Connections-Throughput,Latency" >> ./plot_data/compare.dat
@@ -40,10 +40,68 @@ do
     sleep 1s
 done
 
-# ./bin/ycsb load memcached -s -P workloads/workloada -P ./memcached/conf/memcached.properties > outputLoad.txt
 
-# ./bin/ycsb run memcached -s -P workloads/workloada -P ./memcached/conf/memcached.properties > outputRun.txt
+#数据多样化场景
+./bin/ycsb load memcached -s -P workloads/workloada -P ./memcached/conf/memcached.properties > MA_outputLoad.txt
 
-# Memcached命中率 = get_hits/cmd_get
+./bin/ycsb run memcached -s -P workloads/workloada -P ./memcached/conf/memcached.properties > MA_outputRun.txt
 
-# Redis命中率=keyspace_hits/（keyspace_hits+keyspace_misses）
+./bin/ycsb load redis -s -P workloads/workloada -p "redis.host=127.0.0.1" -p "redis.port=6379" > RA_outputLoad.txt
+
+./bin/ycsb run redis -s -P workloads/workloada -p "redis.host=127.0.0.1" -p "redis.port=6379" > RA_outputRun.txt
+
+
+
+
+
+./bin/ycsb load memcached -s -P workloads/workloadb -P ./memcached/conf/memcached.properties > MB_outputLoad.txt
+
+./bin/ycsb run memcached -s -P workloads/workloadb -P ./memcached/conf/memcached.properties > MB_outputRun.txt
+
+./bin/ycsb load redis -s -P workloads/workloadb -p "redis.host=127.0.0.1" -p "redis.port=6379" > RB_outputLoad.txt
+
+./bin/ycsb run redis -s -P workloads/workloadb -p "redis.host=127.0.0.1" -p "redis.port=6379" > RB_outputRun.txt
+
+
+
+
+./bin/ycsb load memcached -s -P workloads/workloadc -P ./memcached/conf/memcached.properties > MC_outputLoad.txt
+
+./bin/ycsb run memcached -s -P workloads/workloadc -P ./memcached/conf/memcached.properties > MC_outputRun.txt
+
+./bin/ycsb load redis -s -P workloads/workloadc -p "redis.host=127.0.0.1" -p "redis.port=6379" > RC_outputLoad.txt
+
+./bin/ycsb run redis -s -P workloads/workloadc -p "redis.host=127.0.0.1" -p "redis.port=6379" > RC_outputRun.txt
+
+
+
+
+./bin/ycsb load memcached -s -P workloads/workloadd -P ./memcached/conf/memcached.properties > MD_outputLoad.txt
+
+./bin/ycsb run memcached -s -P workloads/workloadd -P ./memcached/conf/memcached.properties > MD_outputRun.txt
+
+./bin/ycsb load redis -s -P workloads/workloadd -p "redis.host=127.0.0.1" -p "redis.port=6379" > RD_outputLoad.txt
+
+./bin/ycsb run redis -s -P workloads/workloadd -p "redis.host=127.0.0.1" -p "redis.port=6379" > RD_outputRun.txt
+
+
+
+
+./bin/ycsb load memcached -s -P workloads/workloade -P ./memcached/conf/memcached.properties > ME_outputLoad.txt
+
+./bin/ycsb run memcached -s -P workloads/workloade -P ./memcached/conf/memcached.properties > ME_outputRun.txt
+
+./bin/ycsb load redis -s -P workloads/workloade -p "redis.host=127.0.0.1" -p "redis.port=6379" > RE_outputLoad.txt
+
+./bin/ycsb run redis -s -P workloads/workloade -p "redis.host=127.0.0.1" -p "redis.port=6379" > RE_outputRun.txt
+
+
+
+./bin/ycsb load memcached -s -P workloads/workloadf -P ./memcached/conf/memcached.properties > MF_outputLoad.txt
+
+./bin/ycsb run memcached -s -P workloads/workloadf -P ./memcached/conf/memcached.properties > MF_outputRun.txt
+
+./bin/ycsb load redis -s -P workloads/workloadf -p "redis.host=127.0.0.1" -p "redis.port=6379" > RF_outputLoad.txt
+
+./bin/ycsb run redis -s -P workloads/workloadf -p "redis.host=127.0.0.1" -p "redis.port=6379" > RF_outputRun.txt
+
