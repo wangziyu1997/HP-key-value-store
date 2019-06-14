@@ -8,83 +8,83 @@ touch memcached.dat
 touch memtop.dat
 cd ..
 
-echo "1 Concurrent Connections-Throughput 关系图 set" >> ./plot_data/memcached.dat
-for i in 1 2 3 4 10 20 30 40 50 60;
-do
-    echo "Thread　number: $i" >> ./plot_data/memcached.dat
+# echo "1 Concurrent Connections-Throughput 关系图 set" >> ./plot_data/memcached.dat
+# for i in 1 2 3 4 10 20 30 40 50 60;
+# do
+#     echo "Thread　number: $i" >> ./plot_data/memcached.dat
 
-    for j in 1 10 50 100 200 300 400 500 600 700 800 900 1000;
-        do
-            # echo $i
-            # echo $j
-            num_calls=$((500000/$j))
-            echo -n $j >> ./plot_data/memcached.dat
-            ../tool/memcached-1.5.14/memcached -d -m 1024 -u root -p 11211 -P /tmp/memcached.pid -t $i
-            sleep 1s
-            nohup ../tool/twemperf/src/mcperf --num-conns=$j --conn-rate=1000000 --num-calls=$num_calls --sizes=100 --method=set --port=11211 &
-            top -b -n 15 | grep 'memcached'>> ./plot_data/memtop.dat
-            kill `cat /tmp/memcached.pid`
-            sleep 1s
-        done
-done
+#     for j in 1 10 50 100 200 300 400 500 600 700 800 900 1000;
+#         do
+#             # echo $i
+#             # echo $j
+#             num_calls=$((500000/$j))
+#             echo -n $j >> ./plot_data/memcached.dat
+#             ../tool/memcached-1.5.14/memcached -d -m 1024 -u root -p 11211 -P /tmp/memcached.pid -t $i
+#             sleep 1s
+#             nohup ../tool/twemperf/src/mcperf --num-conns=$j --conn-rate=1000000 --num-calls=$num_calls --sizes=100 --method=set --port=11211 &
+#             top -b -n 15 | grep 'memcached'>> ./plot_data/memtop.dat
+#             kill `cat /tmp/memcached.pid`
+#             sleep 1s
+#         done
+# done
 
-echo "1 Concurrent Connections-Throughput 关系图 get" >> ./plot_data/memcached.dat
-for i in 1 2 3 4 10 20 30 40 50 60;
-do
-    echo "Thread　number: $i" >> ./plot_data/memcached.dat
+# echo "1 Concurrent Connections-Throughput 关系图 get" >> ./plot_data/memcached.dat
+# for i in 1 2 3 4 10 20 30 40 50 60;
+# do
+#     echo "Thread　number: $i" >> ./plot_data/memcached.dat
 
-    for j in 1 10 50 100 200 300 400 500 600 700 800 900 1000;
-        do
-            # echo $i
-            # echo $j
-            num_calls=$((500000/$j))
-            echo -n $j >> ./plot_data/memcached.dat
-            ../tool/memcached-1.5.14/memcached -d -m 1024 -u root -p 11211 -P /tmp/memcached.pid -t $i
-            sleep 1s
-            nohup ../tool/twemperf/src/mcperf --num-conns=$j --conn-rate=1000000 --num-calls=$num_calls --sizes=100 --method=get --port=11211 &
-            top -b -n 15 | grep 'memcached'>> ./plot_data/memtop.dat
-            kill `cat /tmp/memcached.pid`
-            sleep 1s
-        done
-done
+#     for j in 1 10 50 100 200 300 400 500 600 700 800 900 1000;
+#         do
+#             # echo $i
+#             # echo $j
+#             num_calls=$((500000/$j))
+#             echo -n $j >> ./plot_data/memcached.dat
+#             ../tool/memcached-1.5.14/memcached -d -m 1024 -u root -p 11211 -P /tmp/memcached.pid -t $i
+#             sleep 1s
+#             nohup ../tool/twemperf/src/mcperf --num-conns=$j --conn-rate=1000000 --num-calls=$num_calls --sizes=100 --method=get --port=11211 &
+#             top -b -n 15 | grep 'memcached'>> ./plot_data/memtop.dat
+#             kill `cat /tmp/memcached.pid`
+#             sleep 1s
+#         done
+# done
 
-echo "2 Throughput-Latency 关系图 set" >> ./plot_data/memcached.dat
-for i in 1 2 3 4 10 20 30 40 50 60;
-do
-    echo "Thread　number: $i" >> ./plot_data/memcached.dat
+# echo "2 Throughput-Latency 关系图 set" >> ./plot_data/memcached.dat
+# for i in 1 2 3 4 10 20 30 40 50 60;
+# do
+#     echo "Thread　number: $i" >> ./plot_data/memcached.dat
 
-    for j in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25;
-        do
-            # echo $i
-            # echo $j
-            call_rate=$(($j*100))
-            ../tool/memcached-1.5.14/memcached -d -m 1024 -u root -p 11211 -P /tmp/memcached.pid -t $i
-            sleep 1s
-            nohup ../tool/twemperf/src/mcperf --num-conns=100 --conn-rate=10000 --num-calls=5000 --call-rate=$call_rate --sizes=100 --method=set --port=11211 &
-            top -b -n 15 | grep 'memcached'>> ./plot_data/memtop.dat
-            kill `cat /tmp/memcached.pid`
-            sleep 1s
-        done
-done
+#     for j in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25;
+#         do
+#             # echo $i
+#             # echo $j
+#             call_rate=$(($j*100))
+#             ../tool/memcached-1.5.14/memcached -d -m 1024 -u root -p 11211 -P /tmp/memcached.pid -t $i
+#             sleep 1s
+#             nohup ../tool/twemperf/src/mcperf --num-conns=100 --conn-rate=10000 --num-calls=5000 --call-rate=$call_rate --sizes=100 --method=set --port=11211 &
+#             top -b -n 15 | grep 'memcached'>> ./plot_data/memtop.dat
+#             kill `cat /tmp/memcached.pid`
+#             sleep 1s
+#         done
+# done
 
-echo "2 Throughput-Latency 关系图 get" >> ./plot_data/memcached.dat
-for i in 1 2 3 4 10 20 30 40 50 60;
-do
-    echo "Thread　number: $i" >> ./plot_data/memcached.dat
+# echo "2 Throughput-Latency 关系图 get" >> ./plot_data/memcached.dat
+# for i in 1 2 3 4 10 20 30 40 50 60;
+# do
+#     echo "Thread　number: $i" >> ./plot_data/memcached.dat
 
-    for j in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25;
-        do
-            # echo $i
-            # echo $j
-            call_rate=$(($j*100))
-            ../tool/memcached-1.5.14/memcached -d -m 1024 -u root -p 11211 -P /tmp/memcached.pid -t $i
-            sleep 1s
-            nohup ../tool/twemperf/src/mcperf --num-conns=100 --conn-rate=10000 --num-calls=5000 --call-rate=$call_rate --sizes=100 --method=get --port=11211 &
-            top -b -n 15 | grep 'memcached'>> ./plot_data/memtop.dat
-            kill `cat /tmp/memcached.pid`
-            sleep 1s
-        done
-done
+#     for j in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25;
+#         do
+#             # echo $i
+#             # echo $j
+#             call_rate=$(($j*100))
+#             ../tool/memcached-1.5.14/memcached -d -m 1024 -u root -p 11211 -P /tmp/memcached.pid -t $i
+#             sleep 1s
+#             nohup ../tool/twemperf/src/mcperf --num-conns=100 --conn-rate=10000 --num-calls=5000 --call-rate=$call_rate --sizes=100 --method=get --port=11211 &
+#             top -b -n 15 | grep 'memcached'>> ./plot_data/memtop.dat
+#             kill `cat /tmp/memcached.pid`
+#             sleep 1s
+#         done
+# done
 
 # cd ./plot_data
 # rm growth_factor.dat
@@ -123,4 +123,21 @@ done
 # ../tool/memcached-1.5.14/scripts/memcached-tool localhost:11211
 # kill `cat /tmp/memcached.pid`
 
+echo "1.2 memtier-benchmark ConcurrentNumber-Throughput,Latency" >> ./plot_data/memcached.dat
+for i in 1 2 3 4 10 20 30 40 50 60;
+do
+    echo "Thread　number: $i" >> ./plot_data/memcached.dat
 
+    for j in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20;
+        do
+            # echo $i
+            # echo $j
+            call_rate=$(($j*100))
+            ../tool/memcached-1.5.14/memcached -d -m 1024 -u root -p 11211 -P /tmp/memcached.pid -t $i
+            sleep 1s
+            nohup ../tool/memtier_benchmark/memtier_benchmark -p 11211 -P memcache_binary -t $j -n 20000 --ratio=1:1 &
+            top -b -n 20 | grep 'memcached'>> ./plot_data/memtop.dat
+            kill `cat /tmp/memcached.pid`
+            sleep 1s
+        done
+done

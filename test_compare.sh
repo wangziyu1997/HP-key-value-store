@@ -39,3 +39,11 @@ do
     ../tool/redis-5.0.5/src/redis-cli shutdown
     sleep 1s
 done
+
+# ./bin/ycsb load memcached -s -P workloads/workloada -P ./memcached/conf/memcached.properties > outputLoad.txt
+
+# ./bin/ycsb run memcached -s -P workloads/workloada -P ./memcached/conf/memcached.properties > outputRun.txt
+
+# Memcached命中率 = get_hits/cmd_get
+
+# Redis命中率=keyspace_hits/（keyspace_hits+keyspace_misses）

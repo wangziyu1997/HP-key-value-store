@@ -133,3 +133,12 @@ do
     ../tool/redis-5.0.5/src/redis-cli shutdown
     sleep 1s
 done
+
+#  ./memtier_benchmark --random-data --data-size-range=50000-100000 --data-size-pattern=S --key-minimum=2000000 --key-maximum=4000000 --key-pattern=G:G --key-stddev=100 --key-median=3000000
+#  ./memtier_benchmark --random-data --data-size-range=50000-100000 --data-size-pattern=S --key-minimum=2000000 --key-maximum=4000000 --key-pattern=G:G --key-stddev=10000 --key-median=3000000
+#  ./memtier_benchmark --random-data --data-size-range=50000-100000 --data-size-pattern=S --key-minimum=2000000 --key-maximum=4000000 --key-pattern=G:G --key-stddev=1000000 --key-median=3000000
+
+#  ./memtier_benchmark --random-data --data-size-range=10000-50000 --data-size-pattern=S --key-minimum=2000000 --key-maximum=4000000 --key-pattern=G:G --key-stddev=100 --key-median=3000000
+#  ./memtier_benchmark --random-data --data-size-range=10000-50000 --data-size-pattern=S --key-minimum=2000000 --key-maximum=4000000 --key-pattern=G:G --key-stddev=10000 --key-median=3000000
+#  ./memtier_benchmark --random-data --data-size-range=10000-50000 --data-size-pattern=S --key-minimum=2000000 --key-maximum=4000000 --key-pattern=G:G --key-stddev=1000000 --key-median=3000000
+# Redis命中率=keyspace_hits/（keyspace_hits+keyspace_misses）
