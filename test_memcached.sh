@@ -6,6 +6,8 @@
 cd ./plot_data
 rm memcached.dat
 rm memtop.dat
+rm oom.dat
+touch oom.dat
 touch memcached.dat
 touch memtop.dat
 cd ..
@@ -118,11 +120,15 @@ cd ..
 
 echo "3. memcached钙化问题" >> ./plot_data/memcached.dat
 ../tool/memcached-1.5.14/memcached -d -u root -p 11211 -P /tmp/memcached.pid -o slab_reassign,slab_automove
-../tool/twemperf/src/mcperf --num-conns=100 --conn-rate=1000 --sizes=0.01 --num-calls=10000
-../tool/twemperf/src/mcperf --num-conns=100 --conn-rate=1000 --sizes=0.001 --num-calls=1000
-../tool/twemperf/src/mcperf --num-conns=100 --conn-rate=1000 --sizes=0.0001 --num-calls=100
-../tool/twemperf/src/mcperf --num-conns=100 --conn-rate=1000 --sizes=0.00001 --num-calls=10
-../tool/memcached-1.5.14/scripts/memcached-tool localhost:11211
+../tool/memtier_benchmark/memtier_benchmark -p 11211 -P memcache_binary -d 100 -n 10000
+../tool/memcached-1.5.14/scripts/memcached-tool localhost:11211 >> ./plot_data/memcached.dat
+../tool/memtier_benchmark/memtier_benchmark -p 11211 -P memcache_binary -d 1000 -n 1000
+../tool/memcached-1.5.14/scripts/memcached-tool localhost:11211 >> ./plot_data/memcached.dat
+../tool/memtier_benchmark/memtier_benchmark -p 11211 -P memcache_binary -d 10000 -n 100
+../tool/memcached-1.5.14/scripts/memcached-tool localhost:11211 >> ./plot_data/memcached.dat
+../tool/memtier_benchmark/memtier_benchmark -p 11211 -P memcache_binary -d 100000 -n 10
+../tool/memcached-1.5.14/scripts/memcached-tool localhost:11211 >> ./plot_data/memcached.dat
+printf "stats items\r\n" | nc -w 1 localhost 11211 >> ./plot_data/oom.dat 2>&1
 kill `cat /tmp/memcached.pid`
 
 

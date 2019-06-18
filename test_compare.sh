@@ -4,7 +4,7 @@ rm top.dat
 touch compare.dat
 touch top.dat
 cd ..
-#高并发场景
+高并发场景
 sed -i "s/# maxmemory <bytes>/maxmemory 64mb/g" ../tool/redis-5.0.5/redis_original.conf
 
 echo "1. Concurrent Connections-Throughput,Latency" >> ./plot_data/compare.dat
@@ -42,6 +42,10 @@ done
 
 
 #数据多样化场景
+../tool/memcached-1.5.14/memcached -d -m 64 -u root -p 11211 -P /tmp/memcached.pid -t 20
+../tool/redis-5.0.5/src/redis-server ../tool/redis-5.0.5/redis_original.conf &
+
+
 ./bin/ycsb load memcached -s -P workloads/workloada -P ./memcached/conf/memcached.properties > MA_outputLoad.txt
 
 ./bin/ycsb run memcached -s -P workloads/workloada -P ./memcached/conf/memcached.properties > MA_outputRun.txt
@@ -105,3 +109,5 @@ done
 
 ./bin/ycsb run redis -s -P workloads/workloadf -p "redis.host=127.0.0.1" -p "redis.port=6379" > RF_outputRun.txt
 
+cp *outputLoad.txt ../../HP-key-value-store/plot_data/
+cp *outputRun.txt ../../HP-key-value-store/plot_data/
