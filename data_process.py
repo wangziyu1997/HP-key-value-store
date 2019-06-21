@@ -1,5 +1,6 @@
 import os
 import re
+import xlwt 
 
 thread_name = "CC_Throughput_set_threads_number1"
 evictions_name = "evictions100"
@@ -7,7 +8,32 @@ bytes_name = "bytes100"
 
 pipe_name="CC-Throughput_Latency_set_nopipe"
 persist_name="Throughput_set_persist10"
+aof_name='Throughput_set_no10'
 flag=1
+
+ 
+def txt_xls(filename,xlsname):
+
+    try:
+        f = open(filename) 
+        xls=xlwt.Workbook()
+        
+        sheet = xls.add_sheet('sheet1',cell_overwrite_ok=True) 
+        x = 0 
+        while True:
+          
+            line = f.readline() 
+            if not line: 
+                break  
+            for i in range(len(line.split(','))):
+                item=line.split(',')[i]
+                sheet.write(x,i,item) 
+            x += 1
+        f.close()
+        xls.save(xlsname) 
+    except:
+        raise
+
 
 def stre(s):
     pattern = "growth_factor \d*\.\d*|STAT bytes \d*|evictions \d*"
@@ -145,11 +171,42 @@ def compare_cpu_r(num,s):
         with open('./data/compare/redistop.dat','a+') as fw1:
             fw1.write(str(num)+' '+strs[8]+'\n')
 
+def hit_r(num,s,new_file):
+    with open(new_file,'a+') as fw1:
+        fw1.write(str(num)+' '+s)
+
 def compare_cpu_m(num,s):
     strs=s.split()
     if len(strs)==12:
-        with open('./data/compare/memtop.dat','a+') as fw1:
+        with open('./data/memcached/network_model_memtier/memtop.dat','a+') as fw1:
             fw1.write(str(num)+' '+strs[8]+'\n')     
+
+def hitrateRedis(s,filename):
+    global flag
+    # print(s)
+    pattern = "evicted_keys:\d*|keyspace_hits:\d*|keyspace_misses:\d*|used_memory:\d*|maxmemory:\d*"
+    s = re.findall(pattern, s)
+    if len(s)>0:
+        data=s[0].split(':')
+        pdata=data[0]+' '+data[1]+' '
+        if(data[0][0]=='m'):
+            pdata=pdata+'\n'
+        print(pdata)
+        with open(filename,'a+') as fw1:
+                    fw1.write(pdata)
+
+def redis_aof(s):
+    print(s)
+    global aof_name
+    strs = s.split()
+    print(strs)
+    if len(strs)==1:
+        aof_name=strs[0]
+    else:
+        p_name = "./data/redis/AOF/"+aof_name+".dat"
+        pdata=strs[0]+" "+strs[1]+" "+strs[2]+"\n"
+        with open(p_name,'a+') as per:
+                per.write(pdata)
 
 # with open('./data/memcached_growth_factor.dat','r') as fr0:
 #     for line in fr0:
@@ -191,3 +248,82 @@ def compare_cpu_m(num,s):
 #     for line in memtop:
 #         topnum+=1
 #         compare_cpu_m(topnum,line) 
+
+# with open('./data/redis/redis_hitrate/allkeys-lru.dat','r') as redish:
+#     for line in redish:
+#         hitrateRedis(line,'./data/redis/redis_hitrate/allkeys-lru-p.dat')
+
+# with open('./data/redis/redis_hitrate/allkeys-lfu.dat','r') as redish:
+#     for line in redish:
+#         hitrateRedis(line,'./data/redis/redis_hitrate/allkeys-lfu-p.dat')
+# with open('./data/redis/redis_hitrate/allkeys-random.dat','r') as redish:
+#     for line in redish:
+#         hitrateRedis(line,'./data/redis/redis_hitrate/allkeys-random-p.dat')
+
+# with open('./data/redis/redis_hitrate/volatile-lfu.dat','r') as redish:
+#     for line in redish:
+#         hitrateRedis(line,'./data/redis/redis_hitrate/volatile-lfu-p.dat')
+  
+# with open('./data/redis/redis_hitrate/volatile-lru.dat','r') as redish:
+#     for line in redish:
+#         hitrateRedis(line,'./data/redis/redis_hitrate/volatile-lru-p.dat')
+
+# with open('./data/redis/redis_hitrate/volatile-ttl.dat','r') as redish:
+#     for line in redish:
+#         hitrateRedis(line,'./data/redis/redis_hitrate/volatile-ttl-p.dat')
+# with open('./data/redis/redis_hitrate/volatile-random.dat','r') as redish:
+#     for line in redish:
+#         hitrateRedis(line,'./data/redis/redis_hitrate/volatile-random-p.dat')
+
+# with open('./data/redis/redis_aof.dat','r') as redisa:
+#     for line in redisa:
+#         redis_aof(line) 
+
+# path1 = r'./data/compare/1threadsYCSB'
+# filenames1 = os.listdir(path1)
+# for filename1 in filenames1:
+#     xlsname1=filename1.replace('txt','xls')
+#     txt_xls(path1+'/'+filename1,path1+'/'+xlsname1)
+
+# path10 = r'./data/compare/10threadsYCSB'
+# filenames10 = os.listdir(path10)
+# for filename10 in filenames10:
+#     xlsname10=filename10.replace('txt','xls')
+#     txt_xls(path10+'/'+filename10,path10+'/'+xlsname10)
+
+# path20 = r'./data/compare/20threadsYCSB'
+# filenames20 = os.listdir(path20)
+# for filename20 in filenames20:
+#     xlsname20=filename20.replace('txt','xls')
+#     txt_xls(path20+'/'+filename20,path20+'/'+xlsname20)
+
+# topnum = 0
+# with open('./data/memcached/memtop.dat','r') as memtop:
+#     for line in memtop:
+#         topnum+=1
+#         topnum=topnum%450
+#         if topnum==0:
+#             topnum=450
+#         compare_cpu_m(topnum,line) 
+
+# path = r'./data/redis/redis_hitrate/'
+# filenames = os.listdir(path)
+# for filename in filenames:
+#     print(filename)
+#     topnum = 0
+#     with open(path+filename,'r') as redish:
+#         for line in redish:
+#             topnum+=1
+#             newfile=filename.replace('-p','')
+#             hit_r(topnum,line,path+newfile) 
+
+path = r'./data/memcached/network_model_memtier/tl/'
+filenames = os.listdir(path)
+for filename in filenames:
+    print(filename)
+    topnum = 0
+    with open(path+filename,'r') as mtl:
+        for line in mtl:
+            topnum+=1
+            newfile=filename.replace('_tl','')
+            hit_r(topnum,line,path+newfile) 

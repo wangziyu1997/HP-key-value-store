@@ -1,0 +1,15 @@
+1 set_throughput 44922.16 get_throughput 44922.16 set_latency 0.56 get_latency 0.55
+2 set_throughput 81246.73 get_throughput 81246.73 set_latency 0.59 get_latency 0.59
+3 set_throughput 137415.75 get_throughput 137415.75 set_latency 0.56 get_latency 0.56
+4 set_throughput 178427.08 get_throughput 178427.08 set_latency 0.59 get_latency 0.58
+5 set_throughput 228290.59 get_throughput 228290.59 set_latency 0.58 get_latency 0.57
+6 set_throughput 263044.37 get_throughput 263044.37 set_latency 0.57 get_latency 0.57
+7 set_throughput 270343.94 get_throughput 270343.94 set_latency 0.66 get_latency 0.65
+8 set_throughput 262612.09 get_throughput 262612.09 set_latency 0.79 get_latency 0.79
+9 set_throughput 246673.11 get_throughput 246673.11 set_latency 0.92 get_latency 0.91
+10 set_throughput 251668.88 get_throughput 251668.88 set_latency 0.99 get_latency 0.98
+11 set_throughput 263421.27 get_throughput 263421.27 set_latency 1.08 get_latency 1.07
+12 set_throughput 249605.66 get_throughput 249605.66 set_latency 1.20 get_latency 1.20
+13 set_throughput 257315.02 get_throughput 257315.02 set_latency 1.29 get_latency 1.28
+14 set_throughput 255128.94 get_throughput 255128.94 set_latency 1.36 get_latency 1.34
+15 set_throughput 252079.61 get_throughput 252079.61 set_latency 1.51 get_latency 1.50
